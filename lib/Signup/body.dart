@@ -25,9 +25,11 @@ class Body extends StatelessWidget {
             style: TextStyle(
                 color: Colors.white, fontSize: 50, fontWeight: FontWeight.bold),
           ),
-          SvgPicture.asset(
-            "assets/icons/signup.svg",
-            height: size.height * 0.35,
+          Positioned(
+            child: Image.asset(
+              "assets/images/logo.png",
+              height: size.height * 0.35,
+            ),
           ),
           RoundedInputField(
             hintText: "Your Email",
