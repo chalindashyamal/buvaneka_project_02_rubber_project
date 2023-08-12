@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
-import "package:flutter_application_rubber/Components/Rounded_password_field.dart";
-import "package:flutter_application_rubber/Components/rounded_input_field.dart";
+import 'package:flutter_application_rubber/Components/rounded_password_input_field.dart';
+import 'package:flutter_application_rubber/Components/rounded_text_input_field.dart';
 import "package:flutter_application_rubber/Signup/background.dart";
 import "package:flutter_svg/svg.dart";
+
+import "../Components/already_have_an_account_check.dart";
 
 class Body extends StatelessWidget {
   final Widget child;
@@ -54,19 +56,9 @@ class Body extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Already have an Account ?",
-                style: TextStyle(color: Colors.white),
-              ),
-              Text(
-                " Sign in",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              )
-            ],
+          AlreadyHaveAnAccountCheck(
+            login: false,
+            press: () {},
           ),
           const SizedBox(
             height: 15,
