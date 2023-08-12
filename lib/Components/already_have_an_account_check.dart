@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../Login/login_screen.dart'; // Import your login screen file
+import '../Signup/signup_screen.dart'; // Import your signup screen file
 
 class AlreadyHaveAnAccountCheck extends StatelessWidget {
   final bool login;
@@ -16,13 +18,23 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
       children: <Widget>[
         Text(
           login ? "Don't have an Account ?" : "Already have an Account ?",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         GestureDetector(
-          onTap: press(),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return login ? const SignUpScreen() : const Loginscreen();
+                },
+              ),
+            );
+          },
           child: Text(
             login ? " Sign Up" : "Sign In",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         )
       ],
