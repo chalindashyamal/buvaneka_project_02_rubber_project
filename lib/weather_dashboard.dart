@@ -1,7 +1,35 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class WeatherDashboardScreen extends StatelessWidget {
-  const WeatherDashboardScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:weather/weather.dart';
+
+void main() {
+  runApp(const MaterialApp(
+    home: WeatherDashboardScreen(),
+  ));
+}
+
+class WeatherDashboardScreen extends StatefulWidget {
+  const WeatherDashboardScreen({Key? key}) : super(key: key);
+
+  @override
+  _WeatherDashboardScreenState createState() => _WeatherDashboardScreenState();
+}
+
+class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
+  WeatherFactory wf = WeatherFactory("6d6fde202290e617a90a412bc2287335");
+  late Weather w;
+
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
+  }
+
+  Future<void> getWeather() async {
+    w = await wf.currentWeatherByCityName('Bandarawela');
+    setState(() {}); // Update the state to trigger a rebuild
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +50,29 @@ class WeatherDashboardScreen extends StatelessWidget {
           children: [
             const CurrentLocationCard(),
             const SizedBox(height: 20),
-            const CurrentDayWeatherCard(),
+            CurrentDayWeatherCard(
+              temperature: w.temperature?.celsius?.toString() ?? '',
+              condition: w.weatherDescription ?? '',
+            ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 OtherDetailsCard(
                   title: 'Humidity',
-                  value: '65%',
+                  value: w.humidity?.toString() ?? '',
                   icon: Icons.water_damage,
                   icolor: Colors.blueAccent,
                 ),
                 OtherDetailsCard(
                   title: 'Pressure',
-                  value: '1012 hPa',
+                  value: w.pressure?.toString() ?? '',
                   icon: Icons.compress,
                   icolor: Colors.amber,
                 ),
                 OtherDetailsCard(
                   title: 'Wind',
-                  value: '8 km/h',
+                  value: w.windSpeed?.toString() ?? '',
                   icon: Icons.wind_power,
                   icolor: Colors.black38,
                 ),
@@ -61,26 +92,30 @@ class CurrentLocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String currentLocation = "Your Current Location";
+    String currentLocation = 'Bandarawela';
 
     return _buildCard(
-        content: Text(
-          '$currentLocation',
-          style: const TextStyle(fontSize: 18),
-        ),
-        icon: Icons.location_on,
-        icolor: Colors.red);
+      content: Text(
+        currentLocation,
+        style: const TextStyle(fontSize: 18),
+      ),
+      icon: Icons.location_on,
+      icolor: Colors.red,
+    );
   }
 }
 
 class CurrentDayWeatherCard extends StatelessWidget {
-  const CurrentDayWeatherCard({super.key});
+  final String temperature;
+  final String condition;
+
+  const CurrentDayWeatherCard({
+    required this.temperature,
+    required this.condition,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String temperature = '25°C';
-    String condition = 'Sunny';
-
     return _buildCard(
         backgroundColor: Colors.blue,
         content: Column(
@@ -271,10 +306,4 @@ Widget _buildCard({
       ),
     ),
   );
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: WeatherDashboardScreen(),
-  ));
 }

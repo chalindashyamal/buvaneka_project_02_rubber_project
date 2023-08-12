@@ -5,7 +5,7 @@ import '../Components/rounded_password_input_field.dart';
 import '../Components/rounded_text_input_field.dart';
 import '../Signup/background.dart';
 import '../auth.dart';
-import '../weatherDashboard.dart';
+import '../weather_dashboard.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
