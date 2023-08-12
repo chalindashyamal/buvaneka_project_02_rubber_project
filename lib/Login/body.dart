@@ -149,7 +149,7 @@ class _BodyState extends State<Body> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DashboardScreen()));
+                            builder: (context) => DashboardScreen()));
                   },
                   child: const Text(
                     "GO TO DASHBOARD",
