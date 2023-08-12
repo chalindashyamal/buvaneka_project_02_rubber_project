@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "885455653118",
+    "firebase_url": "https://rubberx-d861e-default-rtdb.firebaseio.com",
+    "project_id": "rubberx-d861e",
+    "storage_bucket": "rubberx-d861e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885455653118:android:a6799fc03d15c8a810fdaf",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_rubber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885455653118-s708igir7as6kh3m8bto2uns98nm1bts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtFv7S8Ev-qb-Q4rf4xPSY0CV8k2M26Yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885455653118-s708igir7as6kh3m8bto2uns98nm1bts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
