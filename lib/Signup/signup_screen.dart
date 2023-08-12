@@ -8,9 +8,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.black,
-      body: Body(
-        child: Column(),
-      ),
+      body: Body(),
     );
   }
 }
