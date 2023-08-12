@@ -5,7 +5,7 @@ import '../Components/rounded_password_input_field.dart';
 import '../Components/rounded_text_input_field.dart';
 import '../Signup/background.dart';
 import '../auth.dart';
-import '../dashboard.dart';
+import '../weatherDashboard.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -149,10 +149,10 @@ class _BodyState extends State<Body> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DashboardScreen()));
+                            builder: (context) => WeatherDashboardScreen()));
                   },
                   child: const Text(
-                    "GO TO DASHBOARD",
+                    "WEATHER DASHBOARD",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
