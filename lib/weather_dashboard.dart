@@ -24,7 +24,7 @@ class WeatherDashboardScreen extends StatelessWidget {
             const SizedBox(height: 20),
             const CurrentDayWeatherCard(),
             const SizedBox(height: 20),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 OtherDetailsCard(
@@ -65,7 +65,7 @@ class CurrentLocationCard extends StatelessWidget {
 
     return _buildCard(
         content: Text(
-          '$currentLocation',
+          currentLocation,
           style: const TextStyle(fontSize: 18),
         ),
         icon: Icons.location_on,
@@ -114,7 +114,7 @@ class OtherDetailsCard extends StatelessWidget {
   final IconData icon;
   final Color icolor;
 
-  OtherDetailsCard({
+  const OtherDetailsCard({
     super.key,
     required this.title,
     required this.value,

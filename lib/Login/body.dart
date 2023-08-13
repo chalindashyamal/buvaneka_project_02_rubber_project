@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_rubber/Components/already_have_an_account_check.dart';
+import 'package:flutter_application_rubber/meter_dashboard.dart';
 import '../Components/rounded_password_input_field.dart';
 import '../Components/rounded_text_input_field.dart';
 import '../Signup/background.dart';
 import '../auth.dart';
-import '../weatherDashboard.dart';
+import '../weather_dashboard.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -149,10 +150,35 @@ class _BodyState extends State<Body> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => WeatherDashboardScreen()));
+                            builder: (context) =>
+                                const WeatherDashboardScreen()));
                   },
                   child: const Text(
                     "WEATHER DASHBOARD",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
+            if (isSignedIn)
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white12,
+                    borderRadius: BorderRadius.circular(29)),
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                width: size.width * 0.8,
+                child: TextButton(
+                  onPressed: () {
+                    // Navigate to dashboard.dart DashboardScreen
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const MeterDashboardScreen()));
+                  },
+                  child: const Text(
+                    "METER DASHBOARD",
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
