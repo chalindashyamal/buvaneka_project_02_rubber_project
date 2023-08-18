@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
 
@@ -18,7 +16,7 @@ class WeatherDashboardScreen extends StatefulWidget {
 
 class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
   WeatherFactory wf = WeatherFactory("6d6fde202290e617a90a412bc2287335");
-  late Weather w;
+  Weather? w;
 
   @override
   void initState() {
@@ -33,57 +31,64 @@ class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        foregroundColor: Colors.white,
-        title: const Text(
-          'Dashboard',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.black,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const CurrentLocationCard(),
-            const SizedBox(height: 20),
-            CurrentDayWeatherCard(
-              temperature: w.temperature?.celsius?.toString() ?? '',
-              condition: w.weatherDescription ?? '',
+    return w != null // Check if w is initialized before building the UI
+        ? Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+              foregroundColor: Colors.white,
+              title: const Text(
+                'Dashboard',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.black,
             ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                OtherDetailsCard(
-                  title: 'Humidity',
-                  value: w.humidity?.toString() ?? '',
-                  icon: Icons.water_damage,
-                  icolor: Colors.blueAccent,
-                ),
-                OtherDetailsCard(
-                  title: 'Pressure',
-                  value: w.pressure?.toString() ?? '',
-                  icon: Icons.compress,
-                  icolor: Colors.amber,
-                ),
-                OtherDetailsCard(
-                  title: 'Wind',
-                  value: w.windSpeed?.toString() ?? '',
-                  icon: Icons.wind_power,
-                  icolor: Colors.black38,
-                ),
-              ],
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const CurrentLocationCard(),
+                  const SizedBox(height: 20),
+                  CurrentDayWeatherCard(
+                    temperature: w?.temperature?.celsius?.toString() ?? '',
+                    condition: w?.weatherDescription ?? '',
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      OtherDetailsCard(
+                        title: 'Humidity',
+                        value: w?.humidity?.toString() ?? '',
+                        icon: Icons.water_damage,
+                        icolor: Colors.blueAccent,
+                      ),
+                      OtherDetailsCard(
+                        title: 'Pressure',
+                        value: w?.pressure?.toString() ?? '',
+                        icon: Icons.compress,
+                        icolor: Colors.amber,
+                      ),
+                      OtherDetailsCard(
+                        title: 'Wind',
+                        value: w?.windSpeed?.toString() ?? '',
+                        icon: Icons.wind_power,
+                        icolor: Colors.black38,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  WeatherWeekDetails(),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            WeatherWeekDetails(),
-          ],
-        ),
-      ),
-    );
+          )
+        : Scaffold(
+            body: Center(
+              child:
+                  CircularProgressIndicator(), // Show loading indicator while fetching weather data
+            ),
+          );
   }
 }
 
