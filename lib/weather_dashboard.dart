@@ -15,7 +15,8 @@ class WeatherDashboardScreen extends StatefulWidget {
 }
 
 class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
-  WeatherFactory wf = WeatherFactory("6d6fde202290e617a90a412bc2287335");
+  WeatherFactory wf = WeatherFactory(
+      "6d6fde202290e617a90a412bc2287335"); // Replace with your API key
   Weather? w;
 
   @override
@@ -50,8 +51,11 @@ class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
                   const CurrentLocationCard(),
                   const SizedBox(height: 20),
                   CurrentDayWeatherCard(
-                    temperature: w?.temperature?.celsius?.toString() ?? '',
+                    temperature:
+                        w?.temperature?.celsius?.toStringAsFixed(0) ?? '',
                     condition: w?.weatherDescription ?? '',
+                    icon: _getWeatherIcon(w?.weatherMain ?? ''),
+                    icolor: _getWeatherColor(w?.weatherMain ?? ''),
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -59,19 +63,19 @@ class _WeatherDashboardScreenState extends State<WeatherDashboardScreen> {
                     children: [
                       OtherDetailsCard(
                         title: 'Humidity',
-                        value: w?.humidity?.toString() ?? '',
+                        value: '${w?.humidity?.toString()}%' ?? '',
                         icon: Icons.water_damage,
                         icolor: Colors.blueAccent,
                       ),
                       OtherDetailsCard(
                         title: 'Pressure',
-                        value: w?.pressure?.toString() ?? '',
+                        value: '${w?.pressure?.toStringAsFixed(0)}hPa' ?? '',
                         icon: Icons.compress,
                         icolor: Colors.amber,
                       ),
                       OtherDetailsCard(
                         title: 'Wind',
-                        value: w?.windSpeed?.toString() ?? '',
+                        value: '${w?.windSpeed?.toString()} km/h' ?? '',
                         icon: Icons.wind_power,
                         icolor: Colors.black38,
                       ),
@@ -113,10 +117,14 @@ class CurrentLocationCard extends StatelessWidget {
 class CurrentDayWeatherCard extends StatelessWidget {
   final String temperature;
   final String condition;
+  final IconData icon;
+  final Color icolor;
 
   const CurrentDayWeatherCard({
     required this.temperature,
     required this.condition,
+    required this.icon,
+    required this.icolor,
   });
 
   @override
@@ -143,8 +151,100 @@ class CurrentDayWeatherCard extends StatelessWidget {
             ),
           ],
         ),
-        icon: Icons.wb_sunny,
-        icolor: Colors.white);
+        icon: icon,
+        icolor: icolor);
+  }
+}
+
+IconData _getWeatherIcon(String condition) {
+  switch (condition) {
+    case 'Thunderstorm':
+      return Icons.flash_on;
+    case 'Drizzle':
+      return Icons.grain;
+    case 'Rain':
+      return Icons.beach_access;
+    case 'Snow':
+      return Icons.ac_unit;
+    case 'Mist':
+      return Icons.cloud_circle;
+    case 'Smoke':
+      return Icons.smoke_free;
+    case 'Haze':
+      return Icons.cloud;
+    case 'Dust':
+      return Icons.cloud;
+    case 'Fog':
+      return Icons.cloud;
+    case 'Sand':
+      return Icons.cloud;
+    case 'Ash':
+      return Icons.cloud;
+    case 'Squall':
+      return Icons.flash_on;
+    case 'Tornado':
+      return Icons.tornado;
+    case 'Clear':
+      return Icons.wb_sunny;
+    case 'Clouds':
+      return Icons.cloud;
+    default:
+      return Icons.cloud;
+  }
+}
+
+String _getDate(int Day) {
+  if (Day == 1) {
+    return 'Monday';
+  } else if (Day == 2) {
+    return 'Tuesday';
+  } else if (Day == 3) {
+    return 'Wednesday';
+  } else if (Day == 4) {
+    return 'Thursday';
+  } else if (Day == 5) {
+    return 'Friday';
+  } else if (Day == 6) {
+    return 'Saturday';
+  } else {
+    return 'Sunday';
+  }
+}
+
+Color _getWeatherColor(String condition) {
+  switch (condition) {
+    case 'Thunderstorm':
+      return Colors.amber;
+    case 'Drizzle':
+      return Colors.blue;
+    case 'Rain':
+      return Colors.blue;
+    case 'Snow':
+      return Colors.blue;
+    case 'Mist':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Smoke':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Haze':
+      return const Color.fromARGB(96, 81, 81, 81);
+    case 'Dust':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Fog':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Sand':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Ash':
+      return const Color.fromARGB(96, 113, 113, 113);
+    case 'Squall':
+      return Colors.amber;
+    case 'Tornado':
+      return Colors.black;
+    case 'Clear':
+      return Colors.orange;
+    case 'Clouds':
+      return const Color.fromARGB(96, 113, 113, 113);
+    default:
+      return const Color.fromARGB(96, 113, 113, 113);
   }
 }
 
@@ -183,18 +283,41 @@ class OtherDetailsCard extends StatelessWidget {
   }
 }
 
-class WeatherWeekDetails extends StatelessWidget {
-  final List<Map<String, dynamic>> weeklyWeather = [
-    {'day': 'Monday', 'temperature': '25°C', 'condition': 'Sunny'},
-    {'day': 'Tuesday', 'temperature': '23°C', 'condition': 'Cloudy'},
-    {'day': 'Wednesday', 'temperature': '28°C', 'condition': 'Partly Cloudy'},
-    {'day': 'Thursday', 'temperature': '26°C', 'condition': 'Rainy'},
-    {'day': 'Friday', 'temperature': '24°C', 'condition': 'Thunderstorm'},
-    {'day': 'Saturday', 'temperature': '27°C', 'condition': 'Sunny'},
-    {'day': 'Sunday', 'temperature': '29°C', 'condition': 'Sunny'},
-  ];
-
+class WeatherWeekDetails extends StatefulWidget {
   WeatherWeekDetails({super.key});
+
+  @override
+  _WeatherWeekDetailsState createState() => _WeatherWeekDetailsState();
+}
+
+class _WeatherWeekDetailsState extends State<WeatherWeekDetails> {
+  WeatherFactory wf = WeatherFactory(
+      "6d6fde202290e617a90a412bc2287335"); // Replace with your API key
+  List<Weather> weeklyWeather = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getWeeklyWeather();
+  }
+
+  Future<void> getWeeklyWeather() async {
+    // Fetch weather data for the upcoming week using fiveDayForecastByCityName
+    List<Weather> forecast = await wf.fiveDayForecastByCityName('Bandarawela');
+
+    // Select one weather data per day
+    List<Weather> filteredForecast = [];
+    DateTime currentDate = DateTime.now();
+    for (Weather weather in forecast) {
+      if (weather.date!.day != currentDate.day) {
+        filteredForecast.add(weather);
+        currentDate = weather.date!;
+      }
+    }
+
+    weeklyWeather = filteredForecast;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +325,7 @@ class WeatherWeekDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-          'Weather Week Details',
+          'Weekly Weather Details',
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
@@ -215,7 +338,7 @@ class WeatherWeekDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildWeatherDetailCard(Map<String, dynamic> dayWeather) {
+  Widget _buildWeatherDetailCard(Weather dayWeather) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -229,58 +352,27 @@ class WeatherWeekDetails extends StatelessWidget {
     );
   }
 
-  Widget dayWeatherCardContent(Map<String, dynamic> dayWeather) {
+  Widget dayWeatherCardContent(Weather dayWeather) {
     return Row(
       children: [
         Icon(
-          _getWeatherIcon(dayWeather['condition']),
+          _getWeatherIcon(dayWeather.weatherMain!),
           size: 36,
-          color: _getWeatherColor(dayWeather['condition']),
+          color: _getWeatherColor(dayWeather.weatherMain!),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: ListTile(
-            title: Text(dayWeather['day']),
+            title: Text(
+              _getDate(dayWeather.date!.weekday),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ), // Display weekday
             subtitle: Text(
-                '${dayWeather['temperature']} - ${dayWeather['condition']}'),
+                '${dayWeather.temperature?.celsius?.toStringAsFixed(0) ?? ''}°C - ${dayWeather.weatherDescription}'),
           ),
         ),
       ],
     );
-  }
-
-  IconData _getWeatherIcon(String condition) {
-    // Replace this with logic to determine the appropriate weather icon
-    if (condition == 'Sunny') {
-      return Icons.wb_sunny;
-    } else if (condition == 'Cloudy') {
-      return Icons.cloud;
-    } else if (condition == 'Partly Cloudy') {
-      return Icons.wb_cloudy;
-    } else if (condition == 'Rainy') {
-      return Icons.beach_access;
-    } else if (condition == 'Thunderstorm') {
-      return Icons.flash_on;
-    } else {
-      return Icons.cloud;
-    }
-  }
-
-  Color _getWeatherColor(String condition) {
-    // Replace this with logic to determine the appropriate weather icon
-    if (condition == 'Sunny') {
-      return Colors.orange;
-    } else if (condition == 'Cloudy') {
-      return const Color.fromARGB(96, 113, 113, 113);
-    } else if (condition == 'Partly Cloudy') {
-      return const Color.fromARGB(96, 81, 81, 81);
-    } else if (condition == 'Rainy') {
-      return Colors.blue;
-    } else if (condition == 'Thunderstorm') {
-      return Colors.amber;
-    } else {
-      return const Color.fromARGB(96, 113, 113, 113);
-    }
   }
 }
 
