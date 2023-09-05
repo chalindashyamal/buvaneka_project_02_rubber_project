@@ -1,7 +1,39 @@
 import 'package:flutter/material.dart';
+import 'firebase_service.dart';
 
-class MeterDashboardScreen extends StatelessWidget {
+class MeterDashboardScreen extends StatefulWidget {
   const MeterDashboardScreen({Key? key}) : super(key: key);
+
+  @override
+  _MeterDashboardScreenState createState() => _MeterDashboardScreenState();
+}
+
+class _MeterDashboardScreenState extends State<MeterDashboardScreen> {
+  final FirebaseService _firebaseService = FirebaseService();
+
+  String temperature = '25°C';
+  String humidity = '65%';
+  String soilMoisture = '45%';
+  String message = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseService.getMeterData().listen((event) {
+      if (event.snapshot.value != null) {
+        final data = event.snapshot.value;
+        setState(() {
+          temperature = data['Temperature'] ?? '25°C';
+          humidity = data['Humidity'] ?? '65%';
+          soilMoisture = data['SoilMoisture'] ?? '45%';
+          message = data['Message'] ?? 'Time to fertilize!';
+        });
+      }
+    }, onError: (error) {
+      // Handle Firebase errors here, e.g., print error message
+      print('Firebase Error: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,34 +49,34 @@ class MeterDashboardScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20),
-          const Row(
+          SizedBox(height: 20),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MeterCard(
                 title: 'Temperature',
-                value: '25°C',
+                value: temperature,
                 icon: Icons.thermostat_outlined,
                 icolor: Colors.redAccent,
               ),
               MeterCard(
                 title: 'Humidity',
-                value: '65%',
+                value: humidity,
                 icon: Icons.water_damage,
                 icolor: Colors.blueAccent,
               ),
               MeterCard(
                 title: 'Soil Moisture',
-                value: '45%',
+                value: soilMoisture,
                 icon: Icons.waves,
                 icolor: Colors.brown,
               ),
             ],
           ),
           const SizedBox(height: 40),
-          const Text(
-            'Time to fertilize!',
-            style: TextStyle(
+          Text(
+            message,
+            style: const TextStyle(
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const SizedBox(height: 20),
@@ -65,8 +97,8 @@ class MeterCard extends StatelessWidget {
   final IconData icon;
   final Color icolor;
 
-  const MeterCard({
-    super.key,
+  MeterCard({
+    Key? key,
     required this.title,
     required this.value,
     required this.icon,
@@ -98,10 +130,4 @@ class MeterCard extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: MeterDashboardScreen(),
-  ));
 }
