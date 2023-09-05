@@ -11,9 +11,9 @@ class MeterDashboardScreen extends StatefulWidget {
 class _MeterDashboardScreenState extends State<MeterDashboardScreen> {
   final FirebaseService _firebaseService = FirebaseService();
 
-  String temperature = '25°C';
-  String humidity = '65%';
-  String soilMoisture = '45%';
+  String temperature = '...';
+  String humidity = '...';
+  String soilMoisture = '...';
   String message = 'Loading...';
 
   @override
@@ -23,10 +23,10 @@ class _MeterDashboardScreenState extends State<MeterDashboardScreen> {
       if (event.snapshot.value != null) {
         final data = event.snapshot.value;
         setState(() {
-          temperature = data['Temperature'] ?? '25°C';
-          humidity = data['Humidity'] ?? '65%';
-          soilMoisture = data['SoilMoisture'] ?? '45%';
-          message = data['Message'] ?? 'Time to fertilize!';
+          temperature = data['Temperature'] ?? 'x';
+          humidity = data['Humidity'] ?? 'x';
+          soilMoisture = data['SoilMoisture'] ?? 'x';
+          message = data['Message'] ?? 'Loading Error!';
         });
       }
     }, onError: (error) {
